@@ -70,12 +70,6 @@ namespace WebAtividadeEntrevista.Controllers
             }
         }
 
-        private class BeneficiarioJson
-        {
-            public string cpfBeneficiario { get; set; }
-            public string nomeBeneficiario { get; set; }
-        }
-
         [HttpPost]
         public JsonResult Alterar(ClienteModel model)
         {
@@ -115,6 +109,7 @@ namespace WebAtividadeEntrevista.Controllers
         public ActionResult Alterar(long id)
         {
             BoCliente bo = new BoCliente();
+            
             Cliente cliente = bo.Consultar(id);
             Models.ClienteModel model = null;
 
@@ -135,7 +130,14 @@ namespace WebAtividadeEntrevista.Controllers
                     CPF = cliente.CPF
                 };
 
-
+                BoBeneficiario boB = new BoBeneficiario();
+                List<Beneficiario> beneficiarios = boB.ConsultarPeloIdDoCliente(model.Id);
+                List<BeneficiarioJson> beneficiarioJsons = new List<BeneficiarioJson>();
+                foreach (var item in beneficiarios)
+                {
+                    beneficiarioJsons.Add(new BeneficiarioJson() { Id = item.Id, IdCliente = item.IdCliente,  cpfBeneficiario = item.CPF, nomeBeneficiario = item.Nome });
+                }
+                model.Beneficiarios = JsonConvert.SerializeObject(beneficiarioJsons);
             }
 
             return View(model);
@@ -166,6 +168,14 @@ namespace WebAtividadeEntrevista.Controllers
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
+        }
+
+        private class BeneficiarioJson
+        {
+            public long Id { get; set; }
+            public string cpfBeneficiario { get; set; }
+            public string nomeBeneficiario { get; set; }
+            public long IdCliente { get; set; }
         }
     }
 }

@@ -11,6 +11,8 @@ $(document).ready(function () {
         $('#formCadastro #Logradouro').val(obj.Logradouro);
         $('#formCadastro #Telefone').val(obj.Telefone);
         $('#formCadastro #CPF').val(obj.CPF);
+        Beneficiarios = $.parseJSON(obj.Beneficiarios);
+        MontaGridBeneficiario(Beneficiarios);
     }
 
     $('#formCadastro').submit(function (e) {
