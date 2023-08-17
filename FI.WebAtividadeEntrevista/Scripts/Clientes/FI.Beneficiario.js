@@ -21,8 +21,8 @@
 var Beneficiarios = [];
 
 function AlterarBeneficiario(index) {
-    $('#CPFBeneficiario').val(Beneficiarios[index].cpfBeneficiario);
-    $('#NomeBeneficiario').val(Beneficiarios[index].nomeBeneficiario);
+    $('#CPFBeneficiario').val(Beneficiarios[index].CPF);
+    $('#NomeBeneficiario').val(Beneficiarios[index].Nome);
     Beneficiarios.splice(index, 1);
 }
 
@@ -32,7 +32,7 @@ function ExcluirBeneficiario(index) {
 }
 
 function IncluirBeneficiario() {
-    if (Beneficiarios.some(x => x.cpfBeneficiario === $('#CPFBeneficiario').val())) {
+    if (Beneficiarios.some(x => x.CPF === $('#CPFBeneficiario').val())) {
         alert("CPF do beneficiário já adicionado!")
         return;
     }
@@ -40,9 +40,9 @@ function IncluirBeneficiario() {
         alert("Informe o nome do beneficiário!")
         return;
     }
-    var cpfBeneficiario = $('#CPFBeneficiario').val();
-    var nomeBeneficiario = $('#NomeBeneficiario').val();
-    var Beneficiario = { "cpfBeneficiario": cpfBeneficiario, "nomeBeneficiario": nomeBeneficiario };
+    var CPF = $('#CPFBeneficiario').val();
+    var Nome = $('#NomeBeneficiario').val();
+    var Beneficiario = { "CPF": CPF, "Nome": Nome };
 
     Beneficiarios.push(Beneficiario);
     MontaGridBeneficiario(Beneficiarios)
@@ -57,8 +57,8 @@ function MontaGridBeneficiario(Beneficiarios) {
     var html = '<div id="GridBenificiario">';
     for (var i = 0; i < Beneficiarios.length; i++) {
         html += '<div class="row">' +
-            '<div class="col-md-4" ><div class="form-group"><input value="' + Beneficiarios[i].cpfBeneficiario + '" disabled type="text" class="form-control" id="CPFBeneficiario' + i + '"></div></div>' +
-            '<div class="col-md-4"><div class="form-group"><input value="' + Beneficiarios[i].nomeBeneficiario + '" disabled type="text" class="form-control" id="NomeBeneficiario' + i + '"></div></div>' +
+            '<div class="col-md-4" ><div class="form-group"><input value="' + Beneficiarios[i].CPF + '" disabled type="text" class="form-control" id="CPFBeneficiario' + i + '"></div></div>' +
+            '<div class="col-md-4"><div class="form-group"><input value="' + Beneficiarios[i].Nome + '" disabled type="text" class="form-control" id="NomeBeneficiario' + i + '"></div></div>' +
             '<div class="col-md-2"><div class="form-group">' +
             '<button type="button" class="btn btn-primary" onclick="AlterarBeneficiario(' + i + ')">Alterar</button></div></div>' +
             '<div class="col-md-2"><div class="form-group">' +

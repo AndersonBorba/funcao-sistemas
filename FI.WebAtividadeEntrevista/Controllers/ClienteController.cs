@@ -59,11 +59,12 @@ namespace WebAtividadeEntrevista.Controllers
                     CPF = model.CPF
                 });
 
-                List<BeneficiarioJson> bs = JsonConvert.DeserializeObject<List<BeneficiarioJson>>(model.Beneficiarios);
+                List<Beneficiario> bs = JsonConvert.DeserializeObject<List<Beneficiario>>(model.Beneficiarios);
                 BoBeneficiario boB = new BoBeneficiario();
-                foreach (var item in bs)
+                foreach (var beneficiario in bs)
                 {
-                    boB.Incluir(new Beneficiario() { IdCliente = model.Id, Nome = item.nomeBeneficiario, CPF = item.cpfBeneficiario });
+                    beneficiario.IdCliente = model.Id;
+                    boB.Incluir(beneficiario);
                 }
 
                 return Json("Cadastro efetuado com sucesso");
@@ -132,12 +133,7 @@ namespace WebAtividadeEntrevista.Controllers
 
                 BoBeneficiario boB = new BoBeneficiario();
                 List<Beneficiario> beneficiarios = boB.ConsultarPeloIdDoCliente(model.Id);
-                List<BeneficiarioJson> beneficiarioJsons = new List<BeneficiarioJson>();
-                foreach (var item in beneficiarios)
-                {
-                    beneficiarioJsons.Add(new BeneficiarioJson() { Id = item.Id, IdCliente = item.IdCliente,  cpfBeneficiario = item.CPF, nomeBeneficiario = item.Nome });
-                }
-                model.Beneficiarios = JsonConvert.SerializeObject(beneficiarioJsons);
+                model.Beneficiarios = JsonConvert.SerializeObject(beneficiarios);
             }
 
             return View(model);
@@ -168,14 +164,6 @@ namespace WebAtividadeEntrevista.Controllers
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
-        }
-
-        private class BeneficiarioJson
-        {
-            public long Id { get; set; }
-            public string cpfBeneficiario { get; set; }
-            public string nomeBeneficiario { get; set; }
-            public long IdCliente { get; set; }
         }
     }
 }
