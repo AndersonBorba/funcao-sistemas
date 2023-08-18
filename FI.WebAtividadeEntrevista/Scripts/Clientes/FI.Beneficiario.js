@@ -23,6 +23,9 @@ var Beneficiarios = [];
 function AlterarBeneficiario(index) {
     $('#CPFBeneficiario').val(Beneficiarios[index].CPF);
     $('#NomeBeneficiario').val(Beneficiarios[index].Nome);
+    if (Beneficiarios[index].Id != undefined)
+        $('#IdBeneficiario').val(Beneficiarios[index].Id);
+
     Beneficiarios.splice(index, 1);
 }
 
@@ -42,13 +45,18 @@ function IncluirBeneficiario() {
     }
     var CPF = $('#CPFBeneficiario').val();
     var Nome = $('#NomeBeneficiario').val();
-    var Beneficiario = { "CPF": CPF, "Nome": Nome };
+    var Id = 0;
+    if ($('#IdBeneficiario').val() != undefined && $('#IdBeneficiario').val() != null && $('#IdBeneficiario').val() != "") {
+        Id = parseInt($('#IdBeneficiario').val())
+    }
+    var Beneficiario = { "Id": Id,  "CPF": CPF, "Nome": Nome };
 
     Beneficiarios.push(Beneficiario);
     MontaGridBeneficiario(Beneficiarios)
 
     $('#CPFBeneficiario').val("");
     $('#NomeBeneficiario').val("");
+    $('#IdBeneficiario').val("");
 }
 
 
